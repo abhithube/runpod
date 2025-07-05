@@ -17,6 +17,7 @@ WORKDIR /workspace/ComfyUI/custom_nodes
 
 # Clone custom node repos
 RUN git clone https://github.com/Comfy-Org/ComfyUI-Manager && \
+    git clone https://github.com/rgthree/rgthree-comfy && \
     git clone https://github.com/city96/ComfyUI-GGUF
 
 # Install custom node dependencies
