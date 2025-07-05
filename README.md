@@ -1,0 +1,1 @@
+A Dockerfile to set up ComfyUI and some custom nodes on Runpod, using `runpod/pytorch` as the base image. Github workflow builds and publishes the image as a public package here, which is then referenced in a Runpod template. I've only selected custom nodes that I care about, so you'll have to modify the Dockerfile as necessary for your use cases.
