@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - Dockerfile
+      - entrypoint.sh
+      - download_models.py
   workflow_dispatch:
 
 jobs:
