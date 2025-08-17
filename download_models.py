@@ -26,7 +26,7 @@ def run_command(cmd, check=True):
 def download_config_file(bucket_name, config_name):
     """Download config file from Backblaze."""
     config_path = f"/tmp/{config_name}.json"
-    remote_path = f"{bucket_name}:ComfyUI/configs/{config_name}.json"
+    remote_path = f"b2:{bucket_name}/configs/{config_name}.json"
     
     print(f">> Downloading config: {remote_path}")
     cmd = f"rclone copy {remote_path} /tmp/"
@@ -35,7 +35,7 @@ def download_config_file(bucket_name, config_name):
     if result.returncode != 0:
         print(f"Failed to download config file: {config_name}.json")
         print("Available configs:")
-        list_cmd = f"rclone lsf {bucket_name}:ComfyUI/configs/"
+        list_cmd = f"rclone lsf b2:{bucket_name}/configs/"
         list_result = run_command(list_cmd, check=False)
         if list_result.returncode == 0:
             print(list_result.stdout)
@@ -48,7 +48,7 @@ def download_config_file(bucket_name, config_name):
 
 def download_models(bucket_name, models_list):
     """Download specified models from Backblaze."""
-    base_remote = f"{bucket_name}:ComfyUI/models"
+    base_remote = f"b2:{bucket_name}/ComfyUI/models"
     base_local = "/workspace/ComfyUI/models"
     
     # Ensure local directories exist
@@ -93,7 +93,10 @@ def main():
         print("Error: B2_BUCKET_NAME environment variable not set")
         sys.exit(1)
     
-    config_name = os.getenv("COMFY_CONFIG", "default")
+    config_name = os.getenv("COMFY_CONFIG")
+    if not config_name:
+        print("Error: COMFY_CONFIG environment variable not set")
+        sys.exit(1)
     print(f">> Using config: {config_name}")
     
     # Download and parse config file

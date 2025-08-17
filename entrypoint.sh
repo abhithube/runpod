@@ -2,11 +2,11 @@
 
 set -e
 
-if [ -n "$B2_BUCKET_NAME" ]; then
-    echo ">> Found B2 configuration. Downloading models based on config..."
+if [ -n "$B2_BUCKET_NAME" ] && [ -n "$COMFY_CONFIG" ]; then
+    echo ">> Downloading models based on config..."
     python /workspace/download_models.py
 else
-    echo ">> B2_BUCKET_NAME not set. Skipping model download."
+    echo ">> Skipping model download."
 fi
 
 echo ">> Starting ComfyUI..."
