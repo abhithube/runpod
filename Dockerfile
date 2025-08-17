@@ -23,8 +23,15 @@ RUN git clone https://github.com/Comfy-Org/ComfyUI-Manager && \
 # Install custom node dependencies
 RUN for reqs in $(find . -name "requirements.txt"); do pip install -r "$reqs"; done
 
+WORKDIR /workspace
+
+# Copy model download script and entrypoint
+COPY download_models.py /workspace/
+COPY entrypoint.sh /workspace/
+RUN chmod +x /workspace/entrypoint.sh
+
 WORKDIR /workspace/ComfyUI
 
 EXPOSE 8888
 
-CMD ["python", "main.py", "--listen", "--port", "8888"]
+CMD ["/workspace/entrypoint.sh"]

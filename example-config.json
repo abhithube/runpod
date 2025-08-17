@@ -1,0 +1,13 @@
+{
+  "name": "SDXL Realistic Portrait Setup",
+  "description": "Configuration for realistic portrait generation with SDXL",
+  "models": [
+    "checkpoints/sd_xl_base_1.0.safetensors",
+    "checkpoints/sd_xl_refiner_1.0.safetensors",
+    "loras/realistic_portrait_v2.safetensors",
+    "loras/skin_detail_enhancer.safetensors",
+    "vae/sdxl_vae.safetensors",
+    "controlnet/control_v11p_sd15_openpose.pth",
+    "upscale_models/RealESRGAN_x4plus.pth"
+  ]
+}
