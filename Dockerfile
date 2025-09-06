@@ -5,6 +5,8 @@ RUN git clone https://github.com/comfyanonymous/ComfyUI
 
 WORKDIR /ComfyUI
 
+COPY extra_model_paths.yaml extra_model_paths.yaml
+
 # Install ComfyUI dependencies
 RUN pip install --disable-pip-version-check --no-cache-dir -r requirements.txt
 
