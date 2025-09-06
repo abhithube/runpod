@@ -6,7 +6,7 @@ RUN git clone https://github.com/comfyanonymous/ComfyUI
 WORKDIR /ComfyUI
 
 # Install ComfyUI dependencies
-RUN pip install -r requirements.txt
+RUN pip install --disable-pip-version-check --no-cache-dir -r requirements.txt
 
 WORKDIR /ComfyUI/custom_nodes
 
@@ -16,7 +16,7 @@ RUN git clone https://github.com/Comfy-Org/ComfyUI-Manager && \
     git clone https://github.com/city96/ComfyUI-GGUF
 
 # Install custom node dependencies
-RUN for reqs in $(find . -name "requirements.txt"); do pip install -r "$reqs"; done
+RUN for reqs in $(find . -name "requirements.txt"); do pip install --disable-pip-version-check --no-cache-dir -r "$reqs"; done
 
 WORKDIR /ComfyUI
 
