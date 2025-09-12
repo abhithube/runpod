@@ -1,0 +1,36 @@
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push")
+
+genrule(
+    name = "setup_files",
+    srcs = [
+        "extra_model_paths.yaml",
+        "setup.sh",
+    ],
+    outs = ["files.tar"],
+    cmd = """
+        mkdir -p files/app
+        cp $(location extra_model_paths.yaml) files/app/
+        cp $(location setup.sh) files/app/
+        chmod +x files/app/setup.sh
+        tar -cf $(location files.tar) -C files .
+    """,
+)
+
+oci_image(
+    name = "build_image",
+    base = "@runpod_pytorch",
+    cmd = ["/app/setup.sh"],
+    env = {
+        "PATH": "/app/ComfyUI/venv/bin:$PATH",
+    },
+    exposed_ports = ["8188"],
+    tars = [":setup_files"],
+    workdir = "/app",
+)
+
+oci_push(
+    name = "push_image",
+    image = ":build_image",
+    repository = "index.docker.io/athube001/runpod",
+    tags = ["latest"],
+)

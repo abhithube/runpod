@@ -1,0 +1,13 @@
+module(name = "comfyui")
+
+bazel_dep(name = "rules_oci", version = "2.2.6")
+
+oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
+
+oci.pull(
+    name = "runpod_pytorch",
+    image = "index.docker.io/runpod/pytorch:2.8.0-py3.11-cuda12.8.1-cudnn-devel-ubuntu22.04",
+    digest = "sha256:0a283024c8b4b2f3ed08f75f1ca0bf30778a87643c6917b98251e5adde1c9b83",
+)
+
+use_repo(oci, "runpod_pytorch")
