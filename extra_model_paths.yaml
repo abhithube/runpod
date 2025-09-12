@@ -3,7 +3,8 @@ comfyui:
   checkpoints: checkpoints
   clip: clip
   diffusion_models: |
-                diffusion_models
-                unet
+    diffusion_models
+    unet
   loras: loras
+  text_encoders: text_encoders
   vae: vae
