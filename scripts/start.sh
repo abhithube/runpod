@@ -5,18 +5,25 @@ ROOT_DIR=/workspace
 COMFYUI_DIR=$ROOT_DIR/ComfyUI
 
 CUSTOM_NODES=(
-  "https://github.com/Comfy-Org/ComfyUI-Manager"
-  "https://github.com/city96/ComfyUI-GGUF"
+  https://github.com/Comfy-Org/ComfyUI-Manager
+  https://github.com/city96/ComfyUI-GGUF
 )
 
 cd $ROOT_DIR
 
-echo "Installing ComfyUI..."
-git clone https://github.com/comfyanonymous/ComfyUI
+if [ ! -d $COMFYUI_DIR ]; then
+  echo "Installing ComfyUI..."
+  git clone https://github.com/comfyanonymous/ComfyUI
+else
+  cd $COMFYUI_DIR
+
+  echo "Updating ComfyUI..."
+  git pull
+fi
 
 cd $COMFYUI_DIR
 
-echo "Installing ComfyUI dependencies..."
+echo "Updating ComfyUI dependencies..."
 pip install -r requirements.txt
 
 for repo in ${CUSTOM_NODES[@]}; do
