@@ -26,7 +26,7 @@ while true; do
     
     if [ $INACTIVE_TIME -ge $TIMEOUT_SECONDS ]; then
         echo "Inactive for $INACTIVE_TIME seconds. Stopping..."
-        runpodctl stop $RUNPOD_POD_ID
+        runpodctl stop pod $RUNPOD_POD_ID
     fi
     
     sleep 60
