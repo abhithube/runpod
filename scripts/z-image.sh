@@ -3,6 +3,9 @@ set -e
 
 MODELS_DIR=/opt/comfyui/models
 
+echo "Updating HF CLI..."
+pip install -U huggingface_hub
+
 hf download Comfy-Org/z_image_turbo --local-dir . \
   split_files/diffusion_models/z_image_turbo_bf16.safetensors \
   split_files/text_encoders/qwen_3_4b.safetensors \
