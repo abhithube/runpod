@@ -9,6 +9,9 @@ CUSTOM_NODES=(
   https://github.com/city96/ComfyUI-GGUF
 )
 
+echo "Updating HF CLI..."
+pip install -U huggingface_hub
+
 cd $ROOT_DIR
 
 if [ ! -d $COMFYUI_DIR ]; then
