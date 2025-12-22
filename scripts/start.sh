@@ -3,48 +3,38 @@ set -e
 
 ROOT_DIR=/workspace
 COMFYUI_DIR=$ROOT_DIR/ComfyUI
+NODES_DIR=$COMFYUI_DIR/custom_nodes
 
 CUSTOM_NODES=(
   https://github.com/Comfy-Org/ComfyUI-Manager
   https://github.com/city96/ComfyUI-GGUF
 )
 
-cd $ROOT_DIR
-
 if [ ! -d $COMFYUI_DIR ]; then
+  cd $ROOT_DIR
+
   echo "Installing ComfyUI..."
   git clone https://github.com/comfyanonymous/ComfyUI
-else
+
   cd $COMFYUI_DIR
 
-  echo "Updating ComfyUI..."
-  git pull
+  echo "Installing ComfyUI dependencies..."
+  pip install -r requirements.txt
 fi
 
-cd $COMFYUI_DIR
-
-echo "Updating ComfyUI dependencies..."
-pip install -r requirements.txt
-
 for repo in ${CUSTOM_NODES[@]}; do
-  repo_name=$(basename $repo)
+  node_name=$(basename $repo)
+  node_dir=$NODES_DIR/$node_name
 
-  if [ ! -d $COMFYUI_DIR/custom_nodes/$repo_name ]; then
-    cd $COMFYUI_DIR/custom_nodes
+  cd $NODES_DIR
 
-    echo "Installing $repo_name..."
-    git clone $repo
-  else
-    cd $COMFYUI_DIR/custom_nodes/$repo_name
+  echo "Installing $node_name..."
+  git clone $repo
 
-    echo "Updating $repo_name..."
-    git pull
-  fi
+  if [ -f $node_dir/requirements.txt ]; then
+    cd $node_dir
 
-  if [ ! -d $COMFYUI_DIR/custom_nodes/$repo_name/requirements.txt ]; then
-    cd $COMFYUI_DIR/custom_nodes/$repo_name
-
-    echo "Updating $repo_name dependencies..."
+    echo "Installing $node_name dependencies..."
     pip install -r requirements.txt
   fi
 done
