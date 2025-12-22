@@ -3,8 +3,6 @@ set -e
 
 ROOT_DIR=/workspace
 
-PIP_CACHE_DIR=$ROOT_DIR/.cache/pip
-
 COMFYUI_DIR=$ROOT_DIR/ComfyUI
 NODES_DIR=$COMFYUI_DIR/custom_nodes
 
@@ -21,32 +19,13 @@ if [ ! -d $COMFYUI_DIR ]; then
 
   cd $COMFYUI_DIR
 
+  echo "Creating virtual env..."
+  uv venv
+
   echo "Installing ComfyUI dependencies..."
-  pip install -r requirements.txt
-fi
+  uv pip install -r requirements.txt
 
-for repo in ${CUSTOM_NODES[@]}; do
-  node_name=$(basename $repo)
-  node_dir=$NODES_DIR/$node_name
-
-  if [ ! -d $node_dir ]; then
-    cd $NODES_DIR
-
-    echo "Installing $node_name..."
-    git clone $repo
-
-    if [ -f $node_dir/requirements.txt ]; then
-      cd $node_dir
-
-      echo "Installing $node_name dependencies..."
-      pip install -r requirements.txt
-    fi
-  fi
-done
-
-cd $COMFYUI_DIR
-
-cat > extra_model_paths.yaml << 'EOF'
+  cat > extra_model_paths.yaml << 'EOF'
 comfyui:
     base_path: /opt/comfyui/models/
     is_default: true
@@ -65,6 +44,28 @@ comfyui:
     audio_encoders: audio_encoders
     model_patches: model_patches
 EOF
+fi
+
+for repo in ${CUSTOM_NODES[@]}; do
+  node_name=$(basename $repo)
+  node_dir=$NODES_DIR/$node_name
+
+  if [ ! -d $node_dir ]; then
+    cd $NODES_DIR
+
+    echo "Installing $node_name..."
+    git clone $repo
+
+    if [ -f $node_dir/requirements.txt ]; then
+      cd $node_dir
+
+      echo "Installing $node_name dependencies..."
+      uv pip install -r requirements.txt
+    fi
+  fi
+done
+
+cd $COMFYUI_DIR
 
 echo "Starting ComfyUI server..."
-python main.py --listen 0.0.0.0 --port 8188
+uv run main.py --listen 0.0.0.0 --port 8188

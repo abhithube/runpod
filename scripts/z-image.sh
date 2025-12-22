@@ -3,16 +3,13 @@ set -e
 
 MODELS_DIR=/opt/comfyui/models
 
-echo "Updating HF CLI..."
-pip install -U huggingface_hub
-
-hf download --local-dir . Comfy-Org/z_image_turbo \
+uvx hf download --local-dir . Comfy-Org/z_image_turbo \
   split_files/diffusion_models/z_image_turbo_bf16.safetensors \
   split_files/text_encoders/qwen_3_4b.safetensors \
   split_files/vae/ae.safetensors
 
-hf download --local-dir $MODELS_DIR/loras Danrisi/GrainScape_UltraReal_ZImage grainscape_zimage.safetensors
-hf download --local-dir $MODELS_DIR/loras Danrisi/Lenovo_UltraReal_Z_Image lenovo_z.safetensors
+uvx hf download --local-dir $MODELS_DIR/loras Danrisi/GrainScape_UltraReal_ZImage grainscape_zimage.safetensors
+uvx hf download --local-dir $MODELS_DIR/loras Danrisi/Lenovo_UltraReal_Z_Image lenovo_z.safetensors
 
 mkdir -p $MODELS_DIR/diffusion_models
 mv split_files/diffusion_models/z_image_turbo_bf16.safetensors $MODELS_DIR/diffusion_models

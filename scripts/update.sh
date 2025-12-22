@@ -3,20 +3,25 @@ set -e
 
 ROOT_DIR=/workspace
 
-PIP_CACHE_DIR=$ROOT_DIR/.cache/pip
-
 COMFYUI_DIR=$ROOT_DIR/ComfyUI
 NODES_DIR=$COMFYUI_DIR/custom_nodes
 
-if [ -d $COMFYUI_DIR ]; then
-  cd $COMFYUI_DIR
+if [ ! -d $COMFYUI_DIR ]; then
+  echo "ComfyUI not installed. Exiting..."
 
-  echo "Updating ComfyUI..."
-  git pull
-
-  echo "Updating ComfyUI dependencies..."
-  pip install -r requirements.txt
+  exit 1
 fi
+
+cd $COMFYUI_DIR
+
+echo "Activating virtual env..."
+source .venv/bin/activate
+
+echo "Updating ComfyUI..."
+git pull
+
+echo "Updating ComfyUI dependencies..."
+uv pip install -r requirements.txt
 
 for node_dir in $NODES_DIR/*/; do
   cd $node_dir
@@ -28,6 +33,6 @@ for node_dir in $NODES_DIR/*/; do
 
   if [ -f $node_dir/requirements.txt ]; then
     echo "Updating $node_nane dependencies..."
-    pip install -r requirements.txt
+    uv pip install -r requirements.txt
   fi
 done
