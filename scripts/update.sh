@@ -2,6 +2,9 @@
 set -e
 
 ROOT_DIR=/workspace
+
+PIP_CACHE_DIR=$ROOT_DIR/.cache/pip
+
 COMFYUI_DIR=$ROOT_DIR/ComfyUI
 NODES_DIR=$COMFYUI_DIR/custom_nodes
 
@@ -17,7 +20,7 @@ fi
 
 for node_dir in $NODES_DIR/*/; do
   cd $node_dir
-  
+
   node_nane=$(basename $node_dir)
 
   echo "Updating $node_nane..."
