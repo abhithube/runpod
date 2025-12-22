@@ -26,16 +26,18 @@ for repo in ${CUSTOM_NODES[@]}; do
   node_name=$(basename $repo)
   node_dir=$NODES_DIR/$node_name
 
-  cd $NODES_DIR
+  if [ ! -d $node_dir ]; then
+    cd $NODES_DIR
 
-  echo "Installing $node_name..."
-  git clone $repo
+    echo "Installing $node_name..."
+    git clone $repo
 
-  if [ -f $node_dir/requirements.txt ]; then
-    cd $node_dir
+    if [ -f $node_dir/requirements.txt ]; then
+      cd $node_dir
 
-    echo "Installing $node_name dependencies..."
-    pip install -r requirements.txt
+      echo "Installing $node_name dependencies..."
+      pip install -r requirements.txt
+    fi
   fi
 done
 
