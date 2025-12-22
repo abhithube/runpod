@@ -23,6 +23,9 @@ git pull
 echo "Updating ComfyUI dependencies..."
 uv pip install -r requirements.txt
 
+echo "Updating ComfyUI-Manager dependencies..."
+uv pip install -r manager_requirements.txt
+
 for node_dir in $NODES_DIR/*/; do
   cd $node_dir
 

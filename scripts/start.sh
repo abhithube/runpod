@@ -7,7 +7,6 @@ COMFYUI_DIR=$ROOT_DIR/ComfyUI
 NODES_DIR=$COMFYUI_DIR/custom_nodes
 
 CUSTOM_NODES=(
-  https://github.com/Comfy-Org/ComfyUI-Manager
   https://github.com/city96/ComfyUI-GGUF
 )
 
@@ -24,6 +23,9 @@ if [ ! -d $COMFYUI_DIR ]; then
 
   echo "Installing ComfyUI dependencies..."
   uv pip install -r requirements.txt
+
+  echo "Installing ComfyUI-Manager dependencies..."
+  uv pip install -r manager_requirements.txt
 
   cat > extra_model_paths.yaml << 'EOF'
 comfyui:
@@ -68,4 +70,4 @@ done
 cd $COMFYUI_DIR
 
 echo "Starting ComfyUI server..."
-uv run main.py --listen 0.0.0.0 --port 8188
+uv run main.py --enable-manager --listen 0.0.0.0 --port 8188
