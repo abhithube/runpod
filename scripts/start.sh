@@ -7,7 +7,7 @@ COMFYUI_DIR=$ROOT_DIR/ComfyUI
 NODES_DIR=$COMFYUI_DIR/custom_nodes
 
 CUSTOM_NODES=(
-  https://github.com/city96/ComfyUI-GGUF
+  https://github.com/rgthree/rgthree-comfy
 )
 
 if [ ! -d $COMFYUI_DIR ]; then
