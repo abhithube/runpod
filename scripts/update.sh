@@ -18,10 +18,10 @@ echo "Updating ComfyUI..."
 git pull
 
 echo "Updating ComfyUI dependencies..."
-uv pip install -r requirements.txt
+pip install -r requirements.txt
 
 echo "Updating ComfyUI-Manager dependencies..."
-uv pip install -r manager_requirements.txt
+pip install -r manager_requirements.txt
 
 for node_dir in $NODES_DIR/*/; do
   cd $node_dir
@@ -33,6 +33,6 @@ for node_dir in $NODES_DIR/*/; do
 
   if [ -f $node_dir/requirements.txt ]; then
     echo "Updating $node_nane dependencies..."
-    uv pip install -r requirements.txt
+    pip install -r requirements.txt
   fi
 done

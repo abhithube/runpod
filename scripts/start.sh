@@ -18,14 +18,11 @@ if [ ! -d $COMFYUI_DIR ]; then
 
   cd $COMFYUI_DIR
 
-  echo "Creating virtual env..."
-  uv venv
-
   echo "Installing ComfyUI dependencies..."
-  uv pip install -r requirements.txt
+  pip install -r requirements.txt
 
   echo "Installing ComfyUI-Manager dependencies..."
-  uv pip install -r manager_requirements.txt
+  pip install -r manager_requirements.txt
 
   cat > extra_model_paths.yaml << 'EOF'
 comfyui:
@@ -62,7 +59,7 @@ for repo in ${CUSTOM_NODES[@]}; do
       cd $node_dir
 
       echo "Installing $node_name dependencies..."
-      uv pip install -r requirements.txt
+      pip install -r requirements.txt
     fi
   fi
 done
@@ -70,4 +67,4 @@ done
 cd $COMFYUI_DIR
 
 echo "Starting ComfyUI server..."
-uv run main.py --enable-manager --listen 0.0.0.0 --port 8188
+python main.py --enable-manager --listen 0.0.0.0 --port 8188
