@@ -1,7 +1,12 @@
 #!/bin/bash
 set -e
 
-MODELS_DIR=/opt/comfyui/models
+ROOT_DIR=/workspace
+
+COMFYUI_DIR=$ROOT_DIR/ComfyUI
+MODELS_DIR=$COMFYUI_DIR/models
+
+cd $ROOT_DIR
 
 uvx hf download --local-dir . Comfy-Org/Krea-2 \
   diffusion_models/krea2_turbo_int8_convrot.safetensors \

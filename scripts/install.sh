@@ -5,6 +5,8 @@ ROOT_DIR=/workspace
 
 COMFYUI_DIR=$ROOT_DIR/ComfyUI
 NODES_DIR=$COMFYUI_DIR/custom_nodes
+MODELS_DIR=$COMFYUI_DIR/models
+EXTRA_MODELS_DIR=/opt/ComfyUI/models
 
 CUSTOM_NODES=(
   https://github.com/rgthree/rgthree-comfy
@@ -24,24 +26,28 @@ if [ ! -d $COMFYUI_DIR ]; then
   echo "Installing ComfyUI-Manager dependencies..."
   pip install -r manager_requirements.txt
 
-  cat > extra_model_paths.yaml << 'EOF'
+  cat > extra_model_paths.yaml << EOF
 comfyui:
-    base_path: /opt/comfyui/models/
-    is_default: true
-    checkpoints: checkpoints
-    text_encoders: text_encoders
-    clip_vision: clip_vision
-    configs: configs
-    controlnet: controlnet
+    checkpoints: |
+      $MODELS_DIR/checkpoints
+      $EXTRA_MODELS_DIR/checkpoints
+    text_encoders: $MODELS_DIR/text_encoders
+    clip_vision: $MODELS_DIR/clip_vision
+    configs: $MODELS_DIR/configs
+    controlnet: $MODELS_DIR/controlnet
     diffusion_models: |
-      diffusion_models
-      unet
-    embeddings: embeddings
-    loras: loras
-    upscale_models: upscale_models
-    vae: vae
-    audio_encoders: audio_encoders
-    model_patches: model_patches
+      $MODELS_DIR/diffusion_models
+      $MODELS_DIR/unet
+      $EXTRA_MODELS_DIR/diffusion_models
+      $EXTRA_MODELS_DIR/unet
+    embeddings: $MODELS_DIR/embeddings
+    loras: |
+      $MODELS_DIR/loras
+      $EXTRA_MODELS_DIR/loras
+    upscale_models: $MODELS_DIR/upscale_models
+    vae: $MODELS_DIR/vae
+    audio_encoders: $MODELS_DIR/audio_encoders
+    model_patches: $MODELS_DIR/model_patches
 EOF
 fi
 
