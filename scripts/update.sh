@@ -14,9 +14,6 @@ fi
 
 cd $COMFYUI_DIR
 
-echo "Activating virtual env..."
-source .venv/bin/activate
-
 echo "Updating ComfyUI..."
 git pull
 
